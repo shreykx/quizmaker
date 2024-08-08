@@ -41,7 +41,7 @@
             function DisplayNewSection(section_name, total_quizes, total_duration) {
                 const section_appender = document.getElementById('section_appender')
                 let sectionDiv = document.createElement("div");
-                sectionDiv.className = "section px-4 py-2 border min-w-[max-content]";
+                sectionDiv.className = "section px-4 py-2 border";
 
                 // Create the topbar div
                 let topbarDiv = document.createElement("div");
@@ -93,10 +93,13 @@
                 openButtonIconInner.textContent = "open_in_new";
 
                 let delete_section_button = document.createElement('span');
-
                 delete_section_button.className = "material-symbols-outlined flex text-red-700 active:opacity-[0.6] active:scale-[0.8] transform duration-100 cursor-pointer";
-                delete_section_button.id = `delete-section-${section_name}`
-                delete_section_button.innerText = 'delete'
+                delete_section_button.id = `delete-section-${section_name.split(' ').join('_')}`;
+                delete_section_button.innerText = 'delete';
+                delete_section_button.addEventListener('click', function () {
+                    const sectionName = this.id.split('delete-section-')[1];
+                    PrepareSectionDelete(sectionName);
+                });
 
 
                 openButtonIconOuter.appendChild(openButtonIconInner);
@@ -249,23 +252,50 @@
 
     <!-- Popup for confirming deleting a section -->
     <div
-        class="cover-div fixed top-[-10px] left-0 w-full h-full bg-black bg-opacity-[0.1] flex items-center justify-center">
+        class="cover-div hidden fixed top-[-10px] left-0 w-full h-full bg-black bg-opacity-[0.1] flex items-center justify-center">
         <div class="bg-white rounded-xl max-w-[200px]">
             <div class="px-4 py-2 text-center">
-                <span class="text-red-600">Are you sure you want to delete <span class="font-bold">MySection</span>?</span>
+                <span class="text-red-600">Are you sure you want to delete <span class="font-bold"
+                        id="section_to_delete_name">MySection</span>?</span>
             </div>
             <div class="flex overflow-hidden rounded-b-xl">
-                <button type="button" class="w-full active:bg-gray-100 border border-l-0 px-4 py-2 text-sm">
+                <button type="button" onclick="cancelDeletion()" class="w-full active:bg-gray-100 border border-l-0 px-4 py-2 text-sm">
                     <span class="">Cancel</span>
                 </button>
-                <button type="button" onclick="completeDeletion()" class="w-full border active:opacity-[0.6] hover:bg-red-500 hover:text-white border-r-0 px-4 py-2 text-red-600 text-sm">
+                <button type="button" onclick="CompleteDeletion()"
+                    class="w-full final_section_delete_button border active:opacity-[0.6] hover:bg-red-500 hover:text-white border-r-0 px-4 py-2 text-red-600 text-sm">
                     <span class="">Delete</span>
                 </button>
+                <script>
+                    function cancelDeletion() {
+                        document.querySelector('.cover-div').classList.add('hidden');
+                    }
+                </script>
 
             </div>
         </div>
     </div>
 
+    <script>
+        function PrepareSectionDelete(section_name) {
+            document.getElementById('section_to_delete_name').innerText = section_name;
+            document.querySelector('.cover-div').classList.remove('hidden');
+        }
+
+        function CompleteDeletion() {
+            console.log(document.getElementById('section_to_delete_name').innerText.split(' ').join('_'));
+            
+            fetch(`/delete/section/${document.getElementById('section_to_delete_name').innerText.split(' ').join('_')}`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        alert("Deleted Successfully")
+
+                        populateSections();
+                        document.querySelector('.cover-div').classList.add('hidden');
+                    }
+                })
+        }
+    </script>
 </body>
 
 </html>

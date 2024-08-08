@@ -23,6 +23,25 @@ def create_new_section(section_name):
     else:
         coll.insert_one({'section_name': section_name})
         return True, 200
+    
+# deleting a section
+
+def delete_section(section_name : str):
+    """Delete a section"""
+    try:
+        sections_coll = db.sections
+        quizes_coll = db.quizes
+
+        # Remove the section from the sections collection
+        sections_coll.delete_one({'section_name': section_name})
+
+        # Remove related quizzes from the quizzes collection
+        quizes_coll.delete_many({'section': section_name})
+        return {"status": "success"}, 200
+    except:
+        return {"status": "error", "message": "Failed to delete section"}, 400
+
+
 
 def get_sections_and_quiz_data():
     """Returns a list of sections and their internal data"""

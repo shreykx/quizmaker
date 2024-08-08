@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO, send
-from db import create_new_section, get_sections_and_quiz_data
+from db import create_new_section, get_sections_and_quiz_data, delete_section
 
 
 app = Flask(__name__)
@@ -20,6 +20,18 @@ def create_section_route(section_name):
 @app.route('/get/sections')
 def get_all_sections_route():
     return get_sections_and_quiz_data(), 200
+
+
+@app.route('/delete/section/<section_name>')
+def delete_section_route(section_name: str):
+    # Convert section_name to its proper format
+    section_name = section_name.replace("_", " ")
+    
+    # Call the delete_section function
+    data, status = delete_section(section_name=section_name)
+    
+    # Assuming delete_section returns a dictionary with a status key and a status code
+    return jsonify(data), status
 
 
 if __name__ == '__main__':
