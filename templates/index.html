@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/app.css') }}">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,700,0,200" />
 
 </head>
 
@@ -27,49 +29,96 @@
             </button>
         </div>
     </nav>
-    <div class="pt-20 p-4">
+    <div class="pt-20 flex items-center justify-center p-4">
+        <div class="w-full space-y-2" id="section_appender">
+            <!-- This part would be dynamic having all the section names-->
 
-
-        <!-- This part would be dynamic -->
-        <div class="section px-4 py-2 border">
-            <!-- This is the topbar of the section containing two child elements -->
-            <div class="topbar flex">
-                <div class="w-full">
-                    <!-- This is the name of the section -->
-                    <h1 class="font-bold text-xl">Social Science</h1>
-                </div>
-                <div class="w-full space-x-2 flex justify-end">
-
-                    <!-- This is a single entry showing total number of tests-->
-                    <div class="space-x-1 flex">
-                        <span class="material-symbols-outlined flex text-gray-700">
-                            total_dissolved_solids
-                        </span>
-                        <span class="text-gray-800">4</span>
-                    </div>
-
-                    <!-- This is yet another entry showing total time to be spent -->
-                    <div class="space-x-1 flex">
-                        <span class="material-symbols-outlined flex text-gray-700">
-                            hourglass_top
-                        </span>
-                        <span class="text-gray-800">8</span>
-                    </div>
-
-                    <!-- This is a button to open the section -->
-                    <div class="space-x-1 flex">
-                        <span class="material-symbols-outlined flex text-gray-700">
-                            <span
-                                class="material-symbols-outlined flex text-blue-600 cursor-pointer active:opacity-[0.6]">
-                                open_in_new
-                            </span>
-                        </span>
-                    </div>
-
-                </div>
-            </div>
         </div>
 
+
+
+        <script>
+            function DisplayNewSection(section_name, total_quizes, total_duration) {
+                const section_appender = document.getElementById('section_appender')
+                let sectionDiv = document.createElement("div");
+                sectionDiv.className = "section px-4 py-2 border min-w-[max-content]";
+
+                // Create the topbar div
+                let topbarDiv = document.createElement("div");
+                topbarDiv.className = "topbar flex";
+
+                // Create the section name div
+                let sectionNameDiv = document.createElement("div");
+                sectionNameDiv.className = "w-full";
+                let sectionNameH1 = document.createElement("h1");
+                sectionNameH1.className = "font-bold text-xl";
+                sectionNameH1.textContent = section_name;
+                sectionNameDiv.appendChild(sectionNameH1);
+
+                // Create the right-side div
+                let rightSideDiv = document.createElement("div");
+                rightSideDiv.className = "w-full space-x-2 flex justify-end";
+
+                // Create the total quizzes div
+                let totalQuizesDiv = document.createElement("div");
+                totalQuizesDiv.className = "space-x-1 flex";
+                let totalQuizesIcon = document.createElement("span");
+                totalQuizesIcon.className = "material-symbols-outlined flex text-gray-700";
+                totalQuizesIcon.textContent = "total_dissolved_solids";
+                let totalQuizesCount = document.createElement("span");
+                totalQuizesCount.className = "text-gray-800";
+                totalQuizesCount.textContent = total_quizes;
+                totalQuizesDiv.appendChild(totalQuizesIcon);
+                totalQuizesDiv.appendChild(totalQuizesCount);
+
+                // Create the total duration div
+                let totalDurationDiv = document.createElement("div");
+                totalDurationDiv.className = "space-x-1 flex";
+                let totalDurationIcon = document.createElement("span");
+                totalDurationIcon.className = `material-symbols-outlined flex text-${(total_duration >= 10) ? 'red' : 'green'}-700`;
+                totalDurationIcon.textContent = "hourglass_top";
+                let totalDurationCount = document.createElement("span");
+                totalDurationCount.className = "text-gray-800";
+                totalDurationCount.textContent = total_duration;
+                totalDurationDiv.appendChild(totalDurationIcon);
+                totalDurationDiv.appendChild(totalDurationCount);
+
+                // Create the open button div
+                let openButtonDiv = document.createElement("div");
+                openButtonDiv.className = "space-x-1 flex";
+                let openButtonIconOuter = document.createElement("span");
+                openButtonIconOuter.className = "material-symbols-outlined flex text-gray-700";
+                let openButtonIconInner = document.createElement("span");
+                openButtonIconInner.className = "material-symbols-outlined flex text-blue-600 cursor-pointer active:opacity-[0.6]";
+                openButtonIconInner.textContent = "open_in_new";
+
+                let delete_section_button = document.createElement('span');
+
+                delete_section_button.className = "material-symbols-outlined flex text-red-700 active:opacity-[0.6] active:scale-[0.8] transform duration-100 cursor-pointer";
+                delete_section_button.id = `delete-section-${section_name}`
+                delete_section_button.innerText = 'delete'
+
+
+                openButtonIconOuter.appendChild(openButtonIconInner);
+                openButtonDiv.appendChild(openButtonIconOuter);
+                openButtonDiv.appendChild(delete_section_button);
+
+                // Append all elements to the right-side div
+                rightSideDiv.appendChild(totalQuizesDiv);
+                rightSideDiv.appendChild(totalDurationDiv);
+                rightSideDiv.appendChild(openButtonDiv);
+
+                // Append section name div and right-side div to the topbar
+                topbarDiv.appendChild(sectionNameDiv);
+                topbarDiv.appendChild(rightSideDiv);
+
+                // Append topbar to the main section div
+                sectionDiv.appendChild(topbarDiv);
+
+                // Append the main section div to the body or any other container
+                section_appender.appendChild(sectionDiv);
+            }
+        </script>
 
     </div>
 
@@ -85,16 +134,16 @@
             <div class="mb-4">
                 <!-- Section if there -->
                 <div class="select-section-here">
-                    <label for="section" class="block text-sm font-medium text-gray-700">Select Section</label>
+                    <label for="section_selector" class="block text-sm font-medium text-gray-700">Select Section</label>
                     <div class="flex">
-                        <select id="section" name="section"
+                        <select id="section_selector" name="section_selector"
                             class="mt-1 text-sm block w-full py-2 px-4 text-base border-gray-300 rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <!-- Options will be populated dynamically -->
                         </select>
                         <!-- Button to reload if the user made a new section -->
                         <button type="button"
                             class="flex items-center text-gray-800 p-2 rounded active:opacity-[0.6] active:scale-[0.9] transform transition duration-100">
-                            <span class="material-symbols-outlined">
+                            <span class="material-symbols-outlined" onclick="populateSections()">
                                 refresh
                             </span>
                         </button>
@@ -110,12 +159,42 @@
                 <!-- or create a new section -->
                 <div class="new-section space-y-3">
                     <label for="section" class="block text-sm font-medium text-gray-700">Create Section</label>
-                    <input type="text" id="section" name="section"
-                        class="mt-1 block text-sm w-full px-4 py-3 rounded-full border-gray-300 border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <button
+                    <div class="flex w-full items-center">
+                        <input type="text" id="section" name="section"
+                            class="mt-1 block text-sm w-full px-4 py-3 rounded-full border-gray-300 border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span id="section_creation_status"
+                            class="material-symbols-rounded hidden w-8 h-8 flex items-center justify-center rounded-full ml-2">
+                            check
+                        </span>
+                    </div>
+
+                    <button onclick="createSection()"
                         class="w-full py-2 text-sm bg-gray-200 text-gray-800 rounded-full active:opacity-[0.6] active:scale-[0.9] transform transition duration-100">Create
                         Section</button>
 
+                    <script>
+                        function createSection() {
+                            let section_name = document.getElementById('section').value;
+                            if (section_name.trim() !== '') {
+                                fetch(`/create/section/${section_name.trim()}`)
+                                    .then((response) => {
+                                        if (response.status === 200) {
+                                            document.getElementById('section_creation_status').classList.remove('hidden')
+                                            document.getElementById('section_creation_status').textContent = 'check';
+                                            document.getElementById('section_creation_status').classList.remove('text-red-600');
+                                            document.getElementById('section_creation_status').classList.add('text-green-600');
+                                            populateSections();
+                                        } else {
+                                            document.getElementById('section_creation_status').classList.remove('hidden')
+                                            document.getElementById('section_creation_status').textContent = 'exclamation';
+                                            document.getElementById('section_creation_status').classList.remove('text-green-600');
+                                            document.getElementById('section_creation_status').classList.add('text-red-600');
+                                        }
+                                    })
+                                return;
+                            }
+                        }
+                    </script>
                 </div>
 
             </div>
@@ -137,7 +216,36 @@
             </div>
         </div>
     </div>
+    <script>
 
+        function populateSections() {
+            const section_appender = document.getElementById("section_appender");
+            section_appender.innerHTML = '';
+            const section_selector = document.getElementById("section_selector");
+            fetch('/get/sections').then((response) => {
+                if (response.status === 200) {
+                    return response.json()
+                }
+            }).then((data) => {
+                console.log(data);
+                data.forEach(element => {
+                    DisplayNewSection(element.section_name, element.quiz_names.length, parseInt(element.total_duration))
+                });
+
+                section_selector.innerHTML = '';
+                data.forEach(element => {
+                    let option = document.createElement('option');
+                    option.textContent = element.section_name;
+                    option.value = element.section_name;
+                    section_selector.appendChild(option);
+                });
+
+            })
+        }
+
+        populateSections()
+
+    </script>
 </body>
 
 </html>

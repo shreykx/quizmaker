@@ -14,12 +14,12 @@ def index():
 def create_section_route(section_name):
     boolx, status = create_new_section(section_name)
     if (boolx == True):
-        return jsonify({'section_name' : section_name}), status
+        return jsonify({'section_name' : section_name}), status # returns a status of 200 and name
     else:
-        return jsonify({'error' : status}), status
+        return jsonify({'error' : status}), status # returns a status of 400 and not made
 @app.route('/get/sections')
 def get_all_sections_route():
-    return get_sections_and_quiz_data()
+    return get_sections_and_quiz_data(), 200
 
 
 if __name__ == '__main__':
