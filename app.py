@@ -33,6 +33,10 @@ def delete_section_route(section_name: str):
     # Assuming delete_section returns a dictionary with a status key and a status code
     return jsonify(data), status
 
+@app.route('/section/<section_name>')
+def section_view(section_name):
+    return render_template('section.html', section_name=section_name)
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, port=8080, host='0.0.0.0')
