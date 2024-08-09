@@ -20,9 +20,27 @@
     </nav>
     <div class="mt-20 -pt-20"></div>
     <!-- Responsive Grid container -->
-    <div class="grid p-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Grid items -->
-        <!-- This will be populated dynamically -->
+    <div class="quiz-list p-4 flex items-center justify-center">
+
+        <!-- Here is an example of a quiz -->
+        <div
+            class="quiz flex bg-white transition duration-200 border rounded-xl hover:outline-3 hover:outline hover:outline-blue-600 max-w-[800px] w-full">
+            <div class="w-full flex p-4 items-start justify-start">
+                <span class="p-1">Nationalism in India</span>
+            </div>
+            <div class="w-full flex items-end justify-end">
+                <div class="icons flex p-1">
+                    <span
+                        class="material-symbols-outlined transition duration-100 text-green-600 flex p-4 active:bg-gray-100 rounded-full active:opacity-[0.8] cursor-pointer">
+                        play_arrow
+                    </span>
+                    <span
+                        class="material-symbols-outlined transition duration-100 flex p-4 active:bg-gray-100 rounded-full active:opacity-[0.8] cursor-pointer">
+                        more_vert
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         document.querySelectorAll('.display_section_name').forEach((element) => {
@@ -30,6 +48,23 @@
             element.innerHTML = sectionName.split('_').join(' ');
         });
     </script>
+
+    <div class="w-screen h-screen bg-black fixed top-0 left-0 bg-opacity-[0.3] flex items-center justify-center">
+        <div class="bg-gray-800 rounded-xl overflow-hidden open-anim-apple">
+            <button type="button"
+                class="px-20 py-2 border-gray-700 text-center hover:bg-gray-700 text-gray-200 active:opacity-[0.7] w-full border-b">About</button><br>
+            <button type="button"
+                class="px-20 py-2 border-gray-700 text-center hover:bg-gray-700 text-gray-200 active:opacity-[0.7] w-full border-b">Edit</button><br>
+            <button type="button"
+                class="px-20 py-2 border-gray-700 text-center hover:bg-gray-700 text-green-600 active:opacity-[0.7] w-full border-b">Play</button><br>
+            <button type="button"
+                class="px-20 py-2 border-gray-700 text-center hover:bg-gray-700 active:opacity-[0.7] w-full border-b text-blue-600">Cancel</button><br>
+
+            <button type="button"
+                class="px-20 py-2 border-gray-700 text-center active:opacity-[0.7] w-full text-red-600 hover:text-white hover:bg-red-500">Delete</button>
+
+        </div>
+    </div>
 </body>
 
 </html>
